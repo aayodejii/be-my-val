@@ -91,6 +91,77 @@ body {
     opacity: 0.7;
 }
 
+/* Spawned Yes buttons */
+.btn-spawned {
+    padding: 0.875rem 2rem;
+    font-size: 1.1rem;
+}
+
+/* Pop-in animation for spawned buttons */
+@keyframes popIn {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    70% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Celebration screen */
+.celebration {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+}
+
+.celebration-title {
+    font-size: 4rem;
+    color: #be123c;
+    margin-bottom: 1rem;
+    animation: popIn 0.5s ease-out;
+}
+
+.celebration-text {
+    font-size: 1.5rem;
+    color: #e11d48;
+    animation: popIn 0.5s ease-out 0.2s both;
+}
+
+/* Floating hearts */
+.hearts-container {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 9999;
+}
+
+.floating-heart {
+    position: absolute;
+    bottom: -50px;
+    animation: floatUp linear forwards;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-110vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
 /* Responsive adjustments */
 @media (max-width: 600px) {
     .content {
@@ -110,5 +181,13 @@ body {
     .btn-no {
         padding: 0.75rem 1.5rem;
         font-size: 1rem;
+    }
+
+    .celebration-title {
+        font-size: 3rem;
+    }
+
+    .celebration-text {
+        font-size: 1.25rem;
     }
 }

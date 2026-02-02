@@ -57,14 +57,82 @@ document.addEventListener('mousemove', (e) => {
     }
 });
 
-// Yes button click handler
-yesBtn.addEventListener('click', () => {
-    console.log('Yes clicked!');
-    // TODO: Show celebration
-});
+// Spawn a Yes button at random position (for mobile)
+function spawnYesButton() {
+    const btn = document.createElement('button');
+    btn.className = 'btn btn-yes btn-spawned';
+    btn.textContent = 'Yes';
+    btn.style.position = 'fixed';
+    btn.style.left = (10 + Math.random() * 60) + 'vw';
+    btn.style.top = (10 + Math.random() * 60) + 'vh';
+    btn.style.zIndex = '9998';
+    btn.style.animation = 'popIn 0.3s ease-out';
+    btn.addEventListener('click', showCelebration);
+    document.body.appendChild(btn);
+}
 
-// No button click handler
+// Show celebration screen
+function showCelebration() {
+    // Hide main content
+    document.querySelector('.container').style.display = 'none';
+    noBtn.style.display = 'none';
+
+    // Remove any spawned buttons
+    document.querySelectorAll('.btn-spawned').forEach(btn => btn.remove());
+
+    // Create celebration screen
+    const celebration = document.createElement('div');
+    celebration.className = 'celebration';
+    celebration.innerHTML = `
+        <h1 class="celebration-title">Yay!</h1>
+        <p class="celebration-text">I knew you'd say yes!</p>
+        <div class="hearts-container" id="heartsContainer"></div>
+    `;
+    document.body.appendChild(celebration);
+
+    // Spawn hearts
+    createHearts();
+}
+
+// Create floating hearts animation
+function createHearts() {
+    const container = document.getElementById('heartsContainer');
+    const heartSymbols = ['❤️', '💕', '💖', '💗', '💓', '💝'];
+
+    for (let i = 0; i < 50; i++) {
+        setTimeout(() => {
+            const heart = document.createElement('div');
+            heart.className = 'floating-heart';
+            heart.textContent = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (2 + Math.random() * 3) + 's';
+            heart.style.fontSize = (1 + Math.random() * 2) + 'rem';
+            container.appendChild(heart);
+
+            // Remove heart after animation
+            setTimeout(() => heart.remove(), 5000);
+        }, i * 100);
+    }
+
+    // Keep spawning hearts
+    setInterval(() => {
+        const heart = document.createElement('div');
+        heart.className = 'floating-heart';
+        heart.textContent = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.animationDuration = (2 + Math.random() * 3) + 's';
+        heart.style.fontSize = (1 + Math.random() * 2) + 'rem';
+        container.appendChild(heart);
+        setTimeout(() => heart.remove(), 5000);
+    }, 200);
+}
+
+// Yes button click handler
+yesBtn.addEventListener('click', showCelebration);
+
+// No button click handler - spawn Yes buttons on mobile/touch
 noBtn.addEventListener('click', () => {
-    console.log('No clicked!');
-    // TODO: Mobile behavior - spawn Yes buttons
+    spawnYesButton();
+    // Also move the No button
+    moveNoButton();
 });
