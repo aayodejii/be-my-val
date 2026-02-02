@@ -1,4 +1,4 @@
-# Be My Valentine? 💝
+# Be My Valentine?
 
 ## The Story
 
